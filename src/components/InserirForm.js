@@ -14,7 +14,7 @@ class InserirForm extends Component{
                                 <label class="form-control">
                                    <p> Descricao </p>
                                     <input type="text" className="form-control"
-                                     name="descricao" id="descricao" required onChange={(event) => this.props.handleUserInput(event)} />
+                                     name="descricao" id="descricao" value={this.props.descricao} required onChange={(event) => this.props.handleUserInput(event)} />
                                 </label>
                             <input type="submit" class="form-control" value="Submit" />
                             </div>

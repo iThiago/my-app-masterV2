@@ -8,7 +8,7 @@ export class Inserir extends Component {
         super(props);
         this.state = {
           tarefa: {},
-          descricao: null
+          descricao: ""
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -21,6 +21,10 @@ export class Inserir extends Component {
         const value = e.target.value;
         tarefa[name] = value;
         this.setState({tarefa})
+
+        let {descricao} = this.state;
+        descricao = value;
+        this.setState({descricao});
     }
 
     handleSubmit(event) {
@@ -35,7 +39,12 @@ export class Inserir extends Component {
 
         TodoListService.criarTarefa(this.state.tarefa).then(
         res => {
+            
             alert("Adicionado com sucesso");
+            let {descricao} = this.state;
+            descricao = "";
+            this.setState({descricao});
+
         }).catch(e =>{
             alert("Ocorreu um erro ao adicionar! " + e);
         });
@@ -44,7 +53,9 @@ export class Inserir extends Component {
 
     render() {
         return (
-            <InserirForm handleSubmit={this.handleSubmit} handleUserInput={this.handleUserInput} />
+            <InserirForm handleSubmit={this.handleSubmit} 
+            handleUserInput={this.handleUserInput}
+            descricao={this.state.descricao} />
           );
    }
 };
