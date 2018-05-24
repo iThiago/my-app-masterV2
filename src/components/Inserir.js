@@ -50,7 +50,7 @@ export class Inserir extends Component {
                                 <label class="form-control">
                                    <p> Descricao </p>
                                     <input type="text"  className="form-control"
-                                     name="descricao" required onChange={(event) => this.handleUserInput(event)} />
+                                     name="descricao" id="descricao" required onChange={(event) => this.handleUserInput(event)} />
                                 </label>
                             <input type="submit" class="form-control" value="Submit" />
                             </div>
