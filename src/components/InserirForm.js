@@ -13,7 +13,7 @@ class InserirForm extends Component{
                             <div class="form-group col-md-12">
                                 <label class="form-control">
                                    <p> Descricao </p>
-                                    <input type="text"  className="form-control"
+                                    <input type="text" className="form-control"
                                      name="descricao" id="descricao" required onChange={(event) => this.props.handleUserInput(event)} />
                                 </label>
                             <input type="submit" class="form-control" value="Submit" />

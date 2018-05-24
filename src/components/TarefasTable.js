@@ -25,12 +25,13 @@ class TarefasTable extends Component {
         const tarefasList = tarefas.map((tarefa, key) => {
             
             return (
+
                 <tr>
                     <td>{tarefa.id} </td>
                     <td >{tarefa.descricao} </td>
                     <td>{ moment(tarefa.dataCriacao).format("DD/MM/YYYY") } </td>
                     <td>{   moment(tarefa.dataFinalizacao).isValid() ? moment(tarefa.dataFinalizacao).format("DD/MM/YYYY") : "-" } </td>
-                    <td> <input type="checkbox"  className="checkGrande" checked={tarefa.finalizada} /></td>
+                    <td> <input type="checkbox"  className="checkBoxLarge" checked={tarefa.finalizada} /></td>
                     <td> <button className="btn brn-success" onClick={(event) => this.props.finalizaTarefa(event,tarefa)} >Finalizar </button> </td>
                     <td> <button className="btn btn-danger"  onClick={(event) => this.props.deletaTarefa(event,tarefa)} >Excluir</button> </td>
                     </tr>
@@ -38,6 +39,7 @@ class TarefasTable extends Component {
         });
         return (
             <div> 
+                <br/> <br/>
                 <table className="table"> 
                     <thead>
                         <tr>

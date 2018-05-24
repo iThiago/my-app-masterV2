@@ -7,7 +7,8 @@ export class Inserir extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          tarefa: {}
+          tarefa: {},
+          descricao: null
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);

@@ -7,6 +7,22 @@
   height: 80px;
 }
 
+.checkBoxLarge{
+  width: 25px;
+  height: 32px;
+}
+
+nav{
+  border-bottom:1px solid #888 
+}
+
+a {
+  margin-left:10px !important;
+  padding-right: 1.0rem !important;
+  padding-left: 1.0rem !important;
+}
+
+
 .App-header {
   background-color: #222;
   height: 150px;
