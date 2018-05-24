@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
-import TodoListService from '../services/TodoListService'
+import TodoListService from '../services/TodoListService';
+import InserirForm from './InserirForm';
+
 export class Inserir extends Component {
     
     constructor(props) {
@@ -10,9 +12,9 @@ export class Inserir extends Component {
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleUserInput = this.handleUserInput.bind(this);
-  }
+    }
   
-  handleUserInput(e) {
+    handleUserInput(e) {
         let {tarefa} = this.state;
         const name = e.target.name;
         const value = e.target.value;
@@ -20,44 +22,28 @@ export class Inserir extends Component {
         this.setState({tarefa})
     }
 
-  handleSubmit(event) {
-    event.preventDefault();
+    handleSubmit(event) {
+        event.preventDefault();
 
-    let {tarefa} = this.state;
+        let {tarefa} = this.state;
 
-    tarefa.dataCriacao = new Date();
-    tarefa.finalizada = false;
-    tarefa.dataFinalizacao = null;      
-    this.setState({tarefa})
+        tarefa.dataCriacao = new Date();
+        tarefa.finalizada = false;
+        tarefa.dataFinalizacao = null;      
+        this.setState({tarefa})
 
-    TodoListService.criarTarefa(this.state.tarefa).then(
-    res => {
-        alert("Adicionado com sucesso");
-    }).catch(e =>{
-        alert("Ocorreu um erro ao adicionar! " + e);
-    });
+        TodoListService.criarTarefa(this.state.tarefa).then(
+        res => {
+            alert("Adicionado com sucesso");
+        }).catch(e =>{
+            alert("Ocorreu um erro ao adicionar! " + e);
+        });
 
-  }
+    }
 
     render() {
         return (
-            <div>
-                <center> 
-                    <br/><br/>
-                    <form onSubmit={this.handleSubmit}>
-                        <div class="form-row col-md-4">
-                            <div class="form-group col-md-12">
-                                <label class="form-control">
-                                   <p> Descricao </p>
-                                    <input type="text"  className="form-control"
-                                     name="descricao" id="descricao" required onChange={(event) => this.handleUserInput(event)} />
-                                </label>
-                            <input type="submit" class="form-control" value="Submit" />
-                            </div>
-                        </div>
-                    </form>
-                </center>
-            </div>
+            <InserirForm handleSubmit={this.handleSubmit} handleUserInput={this.handleUserInput} />
           );
    }
 };

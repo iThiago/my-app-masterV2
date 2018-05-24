@@ -1,37 +1,32 @@
 import React, {Component} from 'react';
-import moment from 'moment';
 import TodoListService from '../services/TodoListService';
-
+import TarefasTable from './TarefasTable';
 
 class TarefasInfo extends Component{
 
     constructor(props){
         super(props);
         this.state = {
-            qtdTarefas: 0,
             tarefa: {}
         }
-    }
-
-    componentWillReceiveProps(props) {
-        this.setState({qtdTarefas: props.tarefas.length});
+        this.finalizaTarefa = this.finalizaTarefa.bind(this);
+        this.deletaTarefa = this.deletaTarefa.bind(this);
     }
 
     finalizaTarefa(event,tarefa){
-        event.preventDefault();
-
-        const index = this.props.tarefas.indexOf(tarefa);
-        let {tarefas} = this.props             
-        tarefas[index].dataFinalizacao = new Date();
-        tarefas[index].finalizada = true;
+        event.preventDefault();                  
         
-        this.props.updateTarefas(tarefas);
-            
+        tarefa = this.alteraParaFinalizada(tarefa);
 
         TodoListService.finalizarTarefa(tarefa).then(res =>{
+        
+           this.alteraTarefaArray(tarefa);
             
         }).catch(e => {
             alert(e);
+            tarefa.finalizada = false;
+            tarefa.dataFinalizacao = null;
+            this.alteraTarefaArray(tarefa);
         })
         
     }
@@ -40,11 +35,8 @@ class TarefasInfo extends Component{
         event.preventDefault();
 
         TodoListService.deletarTarefa(tarefa).then(res =>{
-            debugger;
-            const index = this.props.tarefas.indexOf(tarefa);
-            let {tarefas} = this.props             
-            tarefas.splice(index, 1);
-            this.props.updateTarefas(tarefas);
+           
+           this.deletaTarefaArray(tarefa);
             
         }).catch(e => {
             alert(e);
@@ -53,53 +45,35 @@ class TarefasInfo extends Component{
     }
 
       render(){
-         
-        const {tarefas} = this.props;
-          if(!this.props.tarefas.length > 0){
-            return (
-                <h1>...</h1>
-            )
-          }else{
-                    
-            const tarefasList = tarefas.map((tarefa, key) => {
-               
-                return (
-                  <tr>
-                      <td>{tarefa.id} </td>
-                      <td >{tarefa.descricao} </td>
-                      <td>{ moment(tarefa.dataCriacao).format("DD/MM/YYYY") } </td>
-                      <td>{ moment(tarefa.dataFinalizacao).format("DD/MM/YYYY") } </td>
-                      <td> <input type="checkbox"  className="checkGrande" checked={tarefa.finalizada} /></td>
-                      <td> <button className="btn brn-success" onClick={(event) => this.finalizaTarefa(event,tarefa)} >Finalizar </button> </td>
-                      <td> <button className="btn btn-danger"  onClick={(event) => this.deletaTarefa(event,tarefa)} >Excluir</button> </td>
-                       </tr>
-                )
-          });
-          return (
-            <div> 
-                <table className="table"> 
-                    <thead>
-                        <tr>
-                            <th scope="col">Id</th>
-                            <th scope="col" >Descrição</th>
-                            <th scope="col">Data Criacão</th>
-                            <th scope="col">Data Finalizacão</th>
-                            <th scope="col">Finalizada?</th>
-                            <th scope="col" >Finalizar</th>
-                            <th scope="col">Excluir</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {tarefasList}
-                    </tbody>
-                </table>
+         return (
+            <TarefasTable
+            tarefas={this.props.tarefas}
+            finalizaTarefa={this.finalizaTarefa}
+            deletaTarefa={this.deletaTarefa} />
+        )
+    }
+    
+    alteraTarefaArray(tarefa){
+        const index = this.props.tarefas.indexOf(tarefa);
+        let {tarefas} = this.props             
+        tarefas[index].dataFinalizacao = tarefa.dataFinalizacao
+        tarefas[index].finalizada = tarefa.finalizada;
+        this.props.updateTarefas(tarefas);
+    }
 
-                <h4> total de {this.state.qtdTarefas} tarefas </h4>
+    alteraParaFinalizada(tarefa){
+        tarefa.dataFinalizacao = new Date();
+        tarefa.finalizada = true;
+        return tarefa;
+    }
 
-            </div>
-          );
-        }
-    }   
+    deletaTarefaArray(tarefa){
+        const index = this.props.tarefas.indexOf(tarefa);
+        let {tarefas} = this.props             
+        tarefas.splice(index, 1);
+        this.props.updateTarefas(tarefas);
+    }
+
 }
 
 
